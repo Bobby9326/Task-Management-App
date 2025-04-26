@@ -4,9 +4,11 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  Get,
   Res,
   UnauthorizedException,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import {
@@ -22,6 +24,8 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+import { JwtAuthGuard } from './guard/jwt-auth.guard';
+import { AuthenticatedRequest } from 'src/task/authenticated-request.interface';
 
 @Controller('auth')
 @ApiTags('Authentication')
@@ -57,6 +61,16 @@ export class AuthController {
         );
       }
     }
+  }
+  @UseGuards(JwtAuthGuard)
+  @Get('/check')
+  check(@Req() req: AuthenticatedRequest, @Res() res: Response) {
+    const user = req.user;
+    if (user) {
+      return res.json({ email:user.email,
+        authenticated: true });
+    }
+    return res.json({  email:"",authenticated: false });
   }
 
   @Post('/logout')

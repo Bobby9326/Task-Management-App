@@ -20,8 +20,10 @@ export class TaskService {
     return result;
   }
 
-  async findAll() {
-    const tasks = await this.taskRepository.findAll();
+  async findAllByUser(id: string) {
+    const tasks = await this.taskRepository.findAll({
+      where: { userId: id },
+    });
     return tasks;
   }
 

@@ -54,8 +54,8 @@ export class TaskController {
 
   @ApiOperation({ summary: 'Use to get all tasks for the authenticated user' })
   @Get()
-  async findAll() {
-    const allTask = await this.taskService.findAll();
+  async findAll(@Request() req: AuthenticatedRequest) {
+    const allTask = await this.taskService.findAllByUser(req.user.id);
     return {
       statusCode: HttpStatus.OK,
       data: allTask,
