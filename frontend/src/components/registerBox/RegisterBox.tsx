@@ -38,9 +38,15 @@ const RegisterBox: React.FC = () => {
         password: values.password,
       });
       navigate('/login');
-    } catch (error: any) {
-      setRegisterError(error.response?.data?.message || 'Registration failed. Please try again.');
+    } catch (error: unknown) {
+      if (error && typeof error === 'object' && 'response' in error) {
+        const err = error as { response?: { data?: { message?: string } } };
+        setRegisterError(err.response?.data?.message || 'Registration failed. Please try again.');
+      } else {
+        setRegisterError('Registration failed. Please try again.');
+      }
     }
+    
   };
 
   return (
@@ -72,7 +78,7 @@ const RegisterBox: React.FC = () => {
             </div>
             
             <div className="mb-4">
-              <label htmlFor="password" className="block text-gray-300 mb-2">Password</label>
+              <label htmlFor="password" className="block text-gray-300 mb-2">Main Password</label>
               <Field
                 type="password"
                 id="password"

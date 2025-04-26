@@ -44,7 +44,7 @@ const Home: React.FC = () => {
         setTasks(tasks.filter(task => task.id !== id));
     };
 
-    const handleUpdateStatus = async (id: string) => {
+    const handleUpdateStatus = async () => {
         try {
             const response = await axiosInstance.get('/tasks');
             setTasks(response.data.data || []);

@@ -7,7 +7,7 @@ import { FaEdit, FaTrash, FaArrowUp } from 'react-icons/fa';
 interface TaskProps {
   task: TaskType;
   onDelete: (id: string) => void;
-  onUpdateStatus: (id: string) => void;
+  onUpdateStatus: () => void;
 }
 
 const Task: React.FC<TaskProps> = ({ task, onDelete, onUpdateStatus }) => {
@@ -59,7 +59,7 @@ const Task: React.FC<TaskProps> = ({ task, onDelete, onUpdateStatus }) => {
     if (nextStatus) {
       try {
         await axiosInstance.patch(`/tasks/${task.id}`, { status: nextStatus });
-        onUpdateStatus(task.id);
+        onUpdateStatus();
       } catch (error) {
         console.error('Error updating task status:', error);
       }

@@ -19,11 +19,7 @@ const LoginBox: React.FC = () => {
       .required('Email is required'),
     password: Yup.string()
       .required('Password is required')
-      .min(8, 'Password must be at least 8 characters')
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
-        'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'
-      ),
+      
   });
 
   const handleSubmit = async (values: typeof initialValues) => {
@@ -32,9 +28,14 @@ const LoginBox: React.FC = () => {
       const res = await axiosInstance.post('/auth/login', values);
       console.log(res)
       navigate('/');
-    } catch (error: any) {
-      setLoginError(error.response?.data?.message || 'Login failed. Please try again.');
-    }
+    }  catch (error: unknown) {
+        if (error && typeof error === 'object' && 'response' in error) {
+          const err = error as { response?: { data?: { message?: string } } };
+          setLoginError(err.response?.data?.message || 'Login failed. Please try again.');
+        } else {
+          setLoginError('Login failed. Please try again.');
+        }
+      }
   };
 
   return (
