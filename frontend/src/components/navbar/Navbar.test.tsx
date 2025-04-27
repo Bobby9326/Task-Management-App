@@ -53,6 +53,7 @@ describe('Navbar', () => {
 
     // Assert
     const loginButton = await screen.findByRole('link', { name: /login/i });
+    
     expect(loginButton).toBeInTheDocument();
     expect(loginButton).toHaveAttribute('href', '/login');
   });

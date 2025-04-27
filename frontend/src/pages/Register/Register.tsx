@@ -6,7 +6,7 @@ const Login: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-900">
       <Navbar />
-      <div className="container mx-auto px-4 py-8">
+      <div data-testid="register-box" className="container mx-auto px-4 py-8">
         <RegisterBox />
       </div>
     </div>

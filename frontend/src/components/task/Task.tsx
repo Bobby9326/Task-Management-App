@@ -19,8 +19,6 @@ const Task: React.FC<TaskProps> = ({ task, onDelete, onUpdateStatus }) => {
         return TaskStatus.IN_PROGRESS;
       case TaskStatus.IN_PROGRESS:
         return TaskStatus.COMPLETED;
-      case TaskStatus.COMPLETED:
-        return null;
       default:
         return null;
     }
@@ -111,6 +109,8 @@ const Task: React.FC<TaskProps> = ({ task, onDelete, onUpdateStatus }) => {
       )}
     </div>
   );
+  
 };
+
 
 export default Task;

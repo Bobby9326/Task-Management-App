@@ -3,26 +3,26 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { describe, it, expect } from 'vitest';
-import Login from './Login';
+import Register from './Register';
 
-describe('Login Page', () => {
-  const renderLoginPage = () => {
+describe('Register Page', () => {
+  const renderRegisterPage = () => {
     return render(
       <BrowserRouter>
-        <Login />
+        <Register />
       </BrowserRouter>
     );
   };
 
   it('loads and displays', () => {
     // Arrange & Act
-    renderLoginPage();
+    renderRegisterPage();
 
     // Assert
     const navbar = screen.getByRole('navigation'); 
-    const loginBox = screen.getByTestId('login-box'); 
+    const register = screen.getByTestId('register-box'); 
 
     expect(navbar).toBeInTheDocument();
-    expect(loginBox).toBeInTheDocument();
+    expect(register).toBeInTheDocument();
   });
 });

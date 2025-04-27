@@ -16,29 +16,32 @@ const Home: React.FC = () => {
 
     useEffect(() => {
         const fetchAuthData = async () => {
-            const auth = await isAuthenticated();
-            setAuthenticated(auth);
+          const auth = await isAuthenticated();
+          setAuthenticated(auth);
         };
         fetchAuthData();
-        if (!authenticated) {
-            setLoading(false);
-            return;
-        }
-
+      }, []);
+      
+      useEffect(() => {
         const fetchTasks = async () => {
+          if (authenticated) {
             try {
-                const response = await axiosInstance.get('/tasks');
-                setTasks(response.data.data || []);
+              const response = await axiosInstance.get('/tasks');
+              setTasks(response.data.data || []);
             } catch (error) {
-                console.error('Error fetching tasks:', error);
-                setError('Failed to load tasks. Please try again.');
+              console.error('Error fetching tasks:', error);
+              setError('Failed to load tasks. Please try again.');
             } finally {
-                setLoading(false);
+              setLoading(false);
             }
+          } else {
+            setLoading(false);
+          }
         };
-
+      
         fetchTasks();
-    }, [authenticated]);
+      }, [authenticated]);
+      
 
     const handleDeleteTask = (id: string) => {
         setTasks(tasks.filter(task => task.id !== id));
@@ -74,13 +77,7 @@ const Home: React.FC = () => {
                         <div className="flex justify-between items-center mb-6">
                             <h1 className="text-2xl font-bold text-white">My Tasks</h1>
                             <button
-                                onClick={() => {
-                                    if (!authenticated) {
-                                        navigate('/login');
-                                    } else {
-                                        navigate('/task/create');
-                                    }
-                                }}
+                                onClick={() => {navigate('/task/create')}}
                                 className="flex items-center px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50 transition duration-300"
                             >
                                 <FaPlus className="mr-2" />
@@ -90,7 +87,7 @@ const Home: React.FC = () => {
 
                         {loading ? (
                             <div className="flex justify-center items-center h-64">
-                                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div>
+                                <div role="status" className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div>
                             </div>
                         ) : error ? (
                             <div className="bg-red-900/50 border border-red-800 text-red-200 px-4 py-3 rounded-md">

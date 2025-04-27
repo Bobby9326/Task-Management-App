@@ -1,4 +1,5 @@
 version: '3.8'
+
 services:
   mysql:
     image: mysql:latest
@@ -13,19 +14,32 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
-  app:
-    build: .
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend_app
+    environment:
+      VITE_END_POINT: ${VITE_END_POINT}
+    ports:
+      - '3000:80'
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     container_name: nest_app
     environment:
       DATABASE_HOST: ${DATABASE_HOST}
       DATABASE_PORT: ${DATABASE_PORT}
-      DATABASE_NAME$: ${DATABASE_NAME}
+      DATABASE_NAME: ${DATABASE_NAME}
       DATABASE_USERNAME: ${DATABASE_USERNAME}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
-
       JWT_SECRET: ${JWT_SECRET}
     ports:
-      - '3000:3000'
+      - '4000:3000'
     depends_on:
       - mysql
 

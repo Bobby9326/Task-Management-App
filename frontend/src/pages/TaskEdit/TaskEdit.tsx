@@ -1,26 +1,32 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../../components/navbar/Navbar';
 import TaskEditBox from '../../components/taskEditBox/TaskEditBox';
 import { isAuthenticated } from '../../utils/authUtils';
+
 const TaskEdit: React.FC = () => {
   const navigate = useNavigate();
-  const authenticated = isAuthenticated();
+  const [authenticated, setAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
-    if (!authenticated) {
-      navigate('/login');
-    }
-  }, [authenticated, navigate]);
-
+    const checkAuth = async () => {
+      const auth = await isAuthenticated();
+      setAuthenticated(auth);
+      if (!auth) {
+        navigate('/login');
+      }
+    };
+    checkAuth();
+  }, [navigate]);
+  
   if (!authenticated) {
-    return null;
+    return null; 
   }
 
   return (
     <div className="min-h-screen bg-gray-900">
       <Navbar />
-      <div className="container mx-auto px-4 py-8">
+      <div data-testid="taskEdit-box" className="container mx-auto px-4 py-8">
         <TaskEditBox />
       </div>
     </div>

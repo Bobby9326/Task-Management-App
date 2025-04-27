@@ -1,4 +1,4 @@
-# ใช้ Node.js image
+
 FROM node:20
 
 WORKDIR /app
