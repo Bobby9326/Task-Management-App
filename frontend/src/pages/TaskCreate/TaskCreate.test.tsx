@@ -13,6 +13,7 @@ vi.mock('../../utils/axios', () => ({
 }));
 
 vi.mock('../../utils/authUtils', () => ({
+    getUsername: vi.fn().mockResolvedValue('mockedUsername'),
     isAuthenticated: vi.fn(),
   }));
   

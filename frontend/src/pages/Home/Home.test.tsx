@@ -18,7 +18,7 @@ vi.mock('../../utils/axios', () => ({
 
 vi.mock('../../utils/authUtils', () => ({
   isAuthenticated: vi.fn(),
-  getUsername: vi.fn(),
+  getUsername: vi.fn().mockResolvedValue('mockedUsername'),
 }));
 
 

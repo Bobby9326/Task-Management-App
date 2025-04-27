@@ -23,7 +23,7 @@ vi.mock('react-router-dom', async () => {
 
 // Mock authUtils
 vi.mock('../../utils/authUtils', () => ({
-  getUsername: vi.fn(),
+  getUsername: vi.fn().mockResolvedValue('mockedUsername'),
   isAuthenticated: vi.fn(),
 }));
 
